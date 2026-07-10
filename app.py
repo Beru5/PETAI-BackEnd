@@ -6,10 +6,19 @@ import contractions
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+import os
 
-nltk.download('stopwords', quiet=True)
-nltk.download('wordnet', quiet=True)
-nltk.download('punkt', quiet=True)
+# Tentukan folder download NLTK ke folder /tmp milik Vercel
+nltk_data_dir = "/tmp/nltk_data"
+if not os.path.exists(nltk_data_dir):
+    os.makedirs(nltk_data_dir)
+
+nltk.data.path.append(nltk_data_dir)
+
+# Download secara aman di lingkungan serverless
+nltk.download('stopwords', download_dir=nltk_data_dir, quiet=True)
+nltk.download('wordnet', download_dir=nltk_data_dir, quiet=True)
+nltk.download('punkt', download_dir=nltk_data_dir, quiet=True)
 
 lemmatizer = WordNetLemmatizer()
 stop_words = set(stopwords.words('english'))
